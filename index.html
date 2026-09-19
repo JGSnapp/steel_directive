@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEEL//DIRECTIVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <canvas id="viewport"></canvas>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">S//D</span><span>STEEL DIRECTIVE</span></div>
+    <div class="match-meta"><span>SIMULATION</span><b id="match-time">02:00</b><i></i><span id="status">ENGAGED</span></div>
+    <div><button class="icon-button" id="debug-button">▤ DEBUG LOG</button><button class="icon-button exit-button" id="exit-button">× EXIT MATCH</button></div>
+  </header>
+
+  <main class="hud">
+    <aside class="left-panel panel">
+      <div class="panel-label">UNIT TELEMETRY</div>
+      <div class="unit-title"><span class="team-dot blue"></span><div><small>YOU CONTROL</small><h1>ATLAS <em>// 01</em></h1></div></div>
+      <div class="health-row"><div class="health-track"><i id="player-health"></i></div><b id="player-health-text">100</b><small>HP</small></div>
+
+      <div class="schematic" aria-hidden="true">
+        <div class="schematic-core">01</div><i class="limb l1"></i><i class="limb l2"></i><i class="limb l3"></i><i class="limb l4"></i>
+      </div>
+
+      <div class="stats-grid">
+        <div><span>ARMOR</span><b>840</b></div><div><span>SPEED</span><b>13.0</b></div>
+        <div><span>SENSOR</span><b>92M</b></div><div><span>MASS</span><b>62T</b></div>
+      </div>
+      <div class="loadout"><span>WEAPON SYSTEMS</span><button data-weapon="0"><i>01</i><b>AC-12</b><small id="ammo-0">∞</small></button><button data-weapon="1"><i>02</i><b>VLR-4</b><small id="ammo-1">8</small></button></div>
+    </aside>
+
+    <section class="combat-ui">
+      <div class="crosshair" id="crosshair"><i></i><i></i><span></span></div>
+      <div class="target-card" id="target-card"><small>VISUAL CONTACT</small><b id="target-name">WRAITH // 02</b><div><span id="target-distance">-- M</span><span id="target-action">SCANNING</span></div></div>
+      <div class="hit-marker" id="hit-marker">×</div>
+      <div class="controls-hint"><kbd>WASD</kbd> MOVE <kbd>Q E</kbd> TORSO <kbd>SPACE</kbd> FIRE <kbd>R</kbd> MISSILE</div>
+    </section>
+
+    <aside class="right-panel panel">
+      <div class="panel-label">TACTICAL DIRECTIVE</div>
+      <div class="strategy-tabs"><button class="active" data-strategy="balanced">BALANCED</button><button data-strategy="aggressive">ASSAULT</button><button data-strategy="defensive">HOLD</button></div>
+      <label class="directive"><span>COMMAND INPUT</span><textarea id="directive" rows="3" placeholder="Удерживай дистанцию, используй укрытия…">Захвати центр. Веди огонь короткими очередями и сохраняй ракеты.</textarea><button id="apply-directive">EXECUTE DIRECTIVE <b>↵</b></button></label>
+      <div class="decision-feed"><div class="section-title"><span>JEV DECISION STREAM</span><i id="ai-status">CONNECTING</i></div><div id="decision-log"></div></div>
+      <div class="memory"><div class="section-title"><span>TACTICAL MEMORY</span><b id="memory-count">0/12</b></div><div id="memory-timeline"></div></div>
+    </aside>
+
+    <div class="radar-wrap"><div class="radar" id="radar"><i></i><i></i><span class="radar-player"></span><span class="radar-enemy" id="radar-enemy"></span></div><b>PROXIMITY // 110M</b></div>
+    <div class="bottom-status"><span>CHASSIS <b>NOMINAL</b></span><span>CORE TEMP <b id="heat">31°C</b></span><span>LINK <b>TYPE/Safe</b></span><span>FPS <b id="fps">60</b></span></div>
+  </main>
+
+  <div class="start-screen" id="start-screen">
+    <div class="start-content"><span class="eyebrow">AUTONOMOUS COMBAT PROTOCOL</span><h2>STEEL<br><em>DIRECTIVE</em></h2><p>Тактическая арена, где каждый мех действует по структурированным решениям JEV — и помнит то, что видел.</p><div class="mode"><button class="active" data-mode="training">TARGET TEST</button><button data-mode="duel">1 VS 1</button><button data-mode="squad">3 VS 3</button></div><button id="launch">INITIALIZE MATCH <span>→</span></button><small>Все мехи автономны · клавиши управления работают как ручной override</small></div>
+    <div class="start-index">BUILD 0.4.7<br>NEURAL LINK READY</div>
+  </div>
+
+  <script type="module" src="./src/game.js"></script>
+</body>
+</html>
