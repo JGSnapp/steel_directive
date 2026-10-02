@@ -38,13 +38,9 @@
 
 ## 视频
 
-- [预告片：菜单、战役、3D 配装预览、战斗中下达实时指令（英文）](docs/media/trailer.mp4)
-- [赛季决赛：NULL SIGNAL 对阵 RED CASTLE，3v3（英文）](docs/media/match-final-3v3.mp4)
-- [暴风雪中的单挑：对阵 GHOST（俄文）](docs/media/match-ghost-duel.mp4)
-- [霓虹场：对阵 VOLT 的 BLACK SPARK，3v3（中文）](docs/media/match-volt-3v3.mp4)
-- [2064 环形事件：游戏引擎实时渲染的序章过场（英文）](docs/media/cutscene-ring-2064.mp4)
+**[预告片（1080p，56 秒）](docs/media/trailer.mp4)**：环形事件过场，以及四个竞技场（FOUNDRY-9、WHITEOUT STATION、NEON YARD、THE CITADEL）各一场战斗。
 
-视频由 `tools/record/record.py` 逐帧渲染为 30 fps，并配有原声。视频中的 LLM 和 JEV 调用都是真实的。
+预告片由 `tools/record/montage.py` 以 1080p/30 fps 逐帧渲染，并配有原声。其中的 LLM 和 JEV 调用都是真实的。
 
 ## 快速开始
 

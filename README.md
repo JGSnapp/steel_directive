@@ -46,13 +46,9 @@ You are the new coach of NULL SIGNAL: three retired PATHFINDERs and ECHO, a comm
 
 ## Videos
 
-| | |
-|---|---|
-| [**Trailer**: menu, campaign, live 3D loadout preview, a live directive mid-fight (EN)](docs/media/trailer.mp4) | [**Season final**: NULL SIGNAL vs RED CASTLE, 3v3 (EN)](docs/media/match-final-3v3.mp4) |
-| [**Duel in the blizzard**: vs GHOST on WHITEOUT STATION (RU)](docs/media/match-ghost-duel.mp4) | [**Neon Yard**: vs VOLT's BLACK SPARK, 3v3 (中文)](docs/media/match-volt-3v3.mp4) |
-| [**The Ring Incident, 2064**: the in-engine prologue cutscene (EN)](docs/media/cutscene-ring-2064.mp4) | |
+**[Trailer (1080p, 56 s)](docs/media/trailer.mp4)**: the Ring Incident cutscene, then a fight on each of the four arenas (FOUNDRY-9, WHITEOUT STATION, NEON YARD, THE CITADEL).
 
-Videos are rendered frame by frame at 30 fps with `tools/record/record.py`, soundtrack included. The LLM and JEV calls in them are live.
+The trailer is rendered frame by frame at 1080p/30 fps with `tools/record/montage.py`, soundtrack included. The LLM and JEV calls in it are live.
 
 ## Screenshots
 

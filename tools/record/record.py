@@ -4,7 +4,8 @@ Renders the game frame by frame in headless Chromium (smooth 30 fps), renders
 the arena soundtrack offline in the page, adds title cards and encodes an
 H.264/AAC MP4 with ffmpeg. LLM and JEV calls in the footage are live.
 
-    python tools/record/record.py --scenario trailer --lang en --out docs/media/trailer.mp4
+    python tools/record/record.py --scenario trailer --lang en --out docs/media/ui-tour.mp4
+    (README trailer: python tools/record/montage.py)
     python tools/record/record.py --scenario match --battle chess-squad --lang en --cinema --out docs/media/final.mp4
 
 Requires: pip install playwright pillow && playwright install chromium; ffmpeg on

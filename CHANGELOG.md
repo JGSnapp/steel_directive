@@ -5,7 +5,7 @@
 - In-engine cutscene of the Ring Incident (2064) before the prologue; prologue replayable from the menu and the campaign screen.
 - Simpler mech editor: one tab per mech with the 3D model, parts (with damage type, DPS, range, description) and strategy side by side.
 - Separate music and effects volume sliders, remembered between sessions.
-- Smaller videos (1280 px) and a new trailer.
+- One 1080p highlights trailer (cutscene plus a fight on every arena) replaces the separate match videos; `tools/record/montage.py` renders it.
 
 ## 1.2
 

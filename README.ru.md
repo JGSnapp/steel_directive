@@ -38,13 +38,9 @@
 
 ## Видео
 
-- [Трейлер: меню, кампания, 3D-предпросмотр оснащения, живая директива в бою (EN)](docs/media/trailer.mp4)
-- [Финал сезона: NULL SIGNAL против RED CASTLE, 3 на 3 (EN)](docs/media/match-final-3v3.mp4)
-- [Дуэль в метели против GHOST (RU)](docs/media/match-ghost-duel.mp4)
-- [Неоновый двор против BLACK SPARK, 3 на 3 (中文)](docs/media/match-volt-3v3.mp4)
-- [Инцидент на Кольце, 2064: катсцена пролога на движке игры (EN)](docs/media/cutscene-ring-2064.mp4)
+**[Трейлер (1080p, 56 с)](docs/media/trailer.mp4)**: катсцена Инцидента на Кольце и бой на каждой из четырёх арен (FOUNDRY-9, WHITEOUT STATION, NEON YARD, THE CITADEL).
 
-Видео отрендерены покадрово в 30 fps через `tools/record/record.py`, с саундтреком. Вызовы LLM и JEV в них настоящие.
+Трейлер отрендерен покадрово в 1080p/30 fps через `tools/record/montage.py`, с саундтреком. Вызовы LLM и JEV в нём настоящие.
 
 ## Скриншоты
 
