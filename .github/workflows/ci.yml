@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: JavaScript syntax
+        run: for f in $(find src -name '*.js'); do node --check "$f"; done
+      - name: Python syntax
+        run: python -m py_compile server.py tools/record/record.py
+      - name: Server starts without keys
+        run: |
+          pip install -r requirements.txt
+          python server.py &
+          sleep 3
+          curl -sf http://localhost:8000/api/status
+          curl -sf -o /dev/null http://localhost:8000/
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8000/.env)" = "404"

@@ -1,65 +1,184 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>STEEL//DIRECTIVE</title>
+  <meta name="description" content="Autonomous mech battles: an LLM commander plans, JEV streams decide, you only write the strategy." />
+  <link rel="icon" href="assets/ui/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" onload="this.rel='stylesheet'">
   <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"
+    } }
+  </script>
 </head>
 <body>
   <canvas id="viewport"></canvas>
-  <div class="noise"></div>
+  <div class="scanlines"></div>
+  <div id="tags"></div>
 
-  <header class="topbar">
-    <div class="brand"><span class="brand-mark">S//D</span><span>STEEL DIRECTIVE</span></div>
-    <div class="match-meta"><span>SIMULATION</span><b id="match-time">02:00</b><i></i><span id="status">ENGAGED</span></div>
-    <div><button class="icon-button" id="debug-button">▤ DEBUG LOG</button><button class="icon-button exit-button" id="exit-button">× EXIT MATCH</button></div>
-  </header>
+  <!-- LOADING -->
+  <section class="screen" id="loading">
+    <div class="loader"><b>STEEL<em>//</em>DIRECTIVE</b><div class="bar"><i id="load-bar"></i></div><small id="load-text">…</small></div>
+  </section>
 
-  <main class="hud">
-    <aside class="left-panel panel">
-      <div class="panel-label">UNIT TELEMETRY</div>
-      <div class="unit-title"><span class="team-dot blue"></span><div><small>YOU CONTROL</small><h1>ATLAS <em>// 01</em></h1></div></div>
-      <div class="health-row"><div class="health-track"><i id="player-health"></i></div><b id="player-health-text">100</b><small>HP</small></div>
+  <!-- TITLE -->
+  <section class="screen hidden" id="title">
+    <div class="title-wrap">
+      <span class="eyebrow" data-i18n="title.eyebrow"></span>
+      <h1 class="logo">STEEL<br><em>DIRECTIVE</em></h1>
+      <p class="tagline" data-i18n="title.tagline"></p>
+      <nav class="menu">
+        <button data-go="campaign" class="primary"><span data-i18n="menu.campaign"></span> <span>→</span></button>
+        <button data-go="skirmish" data-i18n="menu.skirmish"></button>
+        <button data-go="prologue" data-i18n="menu.prologue"></button>
+        <button data-go="howto" data-i18n="menu.howto"></button>
+      </nav>
+      <div class="backend" id="backend-status"></div>
+      <div class="title-tools"><div class="lang-switch" id="lang-switch"></div><div class="volume"><span>♪</span><input type="range" min="0" max="100" data-vol="music"><span>FX</span><input type="range" min="0" max="100" data-vol="sfx"></div></div>
+    </div>
+    <div class="coach-strip-title" data-i18n="coaches.title"></div>
+    <div class="title-coaches" id="title-coaches"></div>
+    <div class="build">BUILD 1.2 · THREE.JS · BLENDER · TYPESAFE JEV</div>
+  </section>
 
-      <div class="schematic" aria-hidden="true">
-        <div class="schematic-core">01</div><i class="limb l1"></i><i class="limb l2"></i><i class="limb l3"></i><i class="limb l4"></i>
+  <!-- HOW IT WORKS -->
+  <section class="screen hidden" id="howto">
+    <div class="sheet">
+      <button class="back" data-go="title" data-i18n="menu.back"></button>
+      <h2 data-i18n="howto.title"></h2>
+      <div class="flow">
+        <div><b data-i18n="howto.1t"></b><p data-i18n="howto.1"></p></div>
+        <div><b data-i18n="howto.2t"></b><p data-i18n="howto.2"></p></div>
+        <div><b data-i18n="howto.3t"></b><p data-i18n="howto.3"></p></div>
+        <div><b data-i18n="howto.4t"></b><p data-i18n="howto.4"></p></div>
       </div>
+      <p class="note" data-i18n="howto.note"></p>
+      <h3 data-i18n="howto.keys"></h3>
+      <p class="note" data-i18n="howto.keysText"></p>
+    </div>
+  </section>
 
-      <div class="stats-grid">
-        <div><span>ARMOR</span><b>840</b></div><div><span>SPEED</span><b>13.0</b></div>
-        <div><span>SENSOR</span><b>92M</b></div><div><span>MASS</span><b>62T</b></div>
+  <!-- CAMPAIGN -->
+  <section class="screen hidden" id="campaign">
+    <div class="campaign-head"><button class="back" data-go="title" data-i18n="menu.menu"></button><h2 data-i18n="campaign.title"></h2><button class="ghost-btn" data-go="prologue" data-i18n="menu.prologue"></button><button class="ghost-btn" id="reset-progress" data-i18n="campaign.reset"></button></div>
+    <div class="chapters" id="chapters"></div>
+    <div class="unlocks" id="unlocks"></div>
+  </section>
+
+  <!-- SKIRMISH -->
+  <section class="screen hidden" id="skirmish">
+    <div class="sheet">
+      <button class="back" data-go="title" data-i18n="menu.back"></button>
+      <h2 data-i18n="skirmish.title"></h2>
+      <p class="note" data-i18n="skirmish.note"></p>
+      <div class="pick-row" id="sk-trainers"></div>
+      <div class="pick-row small" id="sk-mode"><button data-v="duel" class="active">1 VS 1</button><button data-v="squad">3 VS 3</button></div>
+      <div class="pick-row small" id="sk-map"></div>
+      <button class="primary wide" id="sk-go" data-i18n="skirmish.go"></button>
+    </div>
+  </section>
+
+  <!-- DIALOGUE -->
+  <section class="screen hidden" id="dialogue">
+    <div class="vn-bg"></div>
+    <img class="vn-sprite" id="vn-sprite" alt="" />
+    <div class="vn-box" id="vn-box">
+      <div class="vn-name" id="vn-name"></div>
+      <p id="vn-text"></p>
+      <div class="vn-hint" data-i18n="vn.hint"></div>
+    </div>
+    <button class="vn-skip" id="vn-skip" data-i18n="vn.skip"></button>
+  </section>
+
+  <!-- BRIEFING -->
+  <section class="screen hidden" id="briefing">
+    <div class="brief">
+      <div class="brief-enemy">
+        <img id="br-card" alt="" />
+        <div class="brief-meta">
+          <span class="eyebrow" id="br-chapter"></span>
+          <h2 id="br-title"></h2>
+          <p id="br-map"></p>
+          <div class="doctrine"><small data-i18n="brief.doctrine"></small><p id="br-doctrine"></p></div>
+          <div class="enemy-roster" id="br-enemies"></div>
+        </div>
       </div>
-      <div class="loadout"><span>WEAPON SYSTEMS</span><button data-weapon="0"><i>01</i><b>AC-12</b><small id="ammo-0">∞</small></button><button data-weapon="1"><i>02</i><b>VLR-4</b><small id="ammo-1">8</small></button></div>
+      <div class="brief-team">
+        <div class="brief-head"><h3 data-i18n="brief.team"></h3><button class="ghost-btn" id="br-back" data-i18n="menu.back"></button></div>
+        <div class="unit-tabs" id="br-tabs"></div>
+        <div class="unit-editor">
+          <div class="preview-view"><canvas id="br-preview"></canvas><small data-i18n="brief.preview"></small></div>
+          <div class="editor-fields" id="br-roster"></div>
+        </div>
+        <label class="team-note"><span data-i18n="brief.teamNote"></span><textarea id="br-team-note" rows="2" data-i18n-ph="brief.teamNotePh"></textarea></label>
+        <div class="brief-actions">
+          <div class="ai-mode" id="br-ai"></div>
+          <button class="primary" id="br-start"><span data-i18n="brief.start"></span> <span>→</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HUD -->
+  <section class="screen hidden" id="hud">
+    <header class="hud-top">
+      <div class="team-bar blue" id="hud-blue"></div>
+      <div class="clock"><small id="hud-map"></small><b id="hud-time">00:00</b><small id="hud-ai"></small></div>
+      <div class="team-bar red" id="hud-red"></div>
+    </header>
+    <aside class="unit-panel" id="unit-panel"></aside>
+    <aside class="feed">
+      <div class="feed-title"><span data-i18n="hud.radio"></span><span class="feed-filter" id="feed-filter"><button data-f="all" class="active" data-i18n="hud.all"></button><button data-f="blue" data-i18n="hud.ours"></button><button data-f="red" data-i18n="hud.enemy"></button><button data-f="tech" class="toggle" data-i18n="hud.tech"></button></span></div>
+      <div id="feed"></div>
+      <div class="feed-title"><span data-i18n="hud.streams"></span><i id="jev-rate"></i></div>
+      <div id="streams"></div>
+      <i id="feed-model"></i>
     </aside>
+    <div class="killfeed" id="killfeed"></div>
+    <div class="banner" id="banner"></div>
+    <footer class="hud-bottom">
+      <div class="cams"><button data-cam="director" class="active" data-i18n="hud.director"></button><button data-cam="follow" data-i18n="hud.follow"></button><button data-cam="tactical" data-i18n="hud.tactical"></button></div>
+      <form class="directive-bar" id="directive-form">
+        <select id="directive-target"></select>
+        <input id="directive-input" autocomplete="off" data-i18n-ph="hud.directivePh" />
+        <button data-i18n="hud.send"></button>
+      </form>
+      <div class="volume"><span>♪</span><input type="range" min="0" max="100" data-vol="music"><span>FX</span><input type="range" min="0" max="100" data-vol="sfx"></div>
+      <button class="ghost-btn" id="hud-exit" data-i18n="hud.exit"></button>
+    </footer>
+  </section>
 
-    <section class="combat-ui">
-      <div class="crosshair" id="crosshair"><i></i><i></i><span></span></div>
-      <div class="target-card" id="target-card"><small>VISUAL CONTACT</small><b id="target-name">WRAITH // 02</b><div><span id="target-distance">-- M</span><span id="target-action">SCANNING</span></div></div>
-      <div class="hit-marker" id="hit-marker">×</div>
-      <div class="controls-hint"><kbd>WASD</kbd> MOVE <kbd>Q E</kbd> TORSO <kbd>SPACE</kbd> FIRE <kbd>R</kbd> MISSILE</div>
-    </section>
+  <!-- CUTSCENE OVERLAY -->
+  <section class="screen hidden" id="cutscene">
+    <div class="cs-bars"></div>
+    <div class="cs-place" data-i18n="cs.place"></div>
+    <div class="cs-log"></div>
+    <div class="cs-caption"></div>
+    <div class="cs-title">STEEL<em>//</em>DIRECTIVE</div>
+    <div class="cs-skip" data-i18n="cs.skip"></div>
+  </section>
 
-    <aside class="right-panel panel">
-      <div class="panel-label">TACTICAL DIRECTIVE</div>
-      <div class="strategy-tabs"><button class="active" data-strategy="balanced">BALANCED</button><button data-strategy="aggressive">ASSAULT</button><button data-strategy="defensive">HOLD</button></div>
-      <label class="directive"><span>COMMAND INPUT</span><textarea id="directive" rows="3" placeholder="Удерживай дистанцию, используй укрытия…">Захвати центр. Веди огонь короткими очередями и сохраняй ракеты.</textarea><button id="apply-directive">EXECUTE DIRECTIVE <b>↵</b></button></label>
-      <div class="decision-feed"><div class="section-title"><span>JEV DECISION STREAM</span><i id="ai-status">CONNECTING</i></div><div id="decision-log"></div></div>
-      <div class="memory"><div class="section-title"><span>TACTICAL MEMORY</span><b id="memory-count">0/12</b></div><div id="memory-timeline"></div></div>
-    </aside>
+  <!-- RESULT -->
+  <section class="screen hidden" id="result">
+    <div class="result">
+      <span class="eyebrow" id="res-sub"></span>
+      <h2 id="res-title"></h2>
+      <div class="res-stats" id="res-stats"></div>
+      <div class="res-spend" id="res-spend"></div>
+      <div class="res-unlock" id="res-unlock"></div>
+      <div class="res-actions">
+        <button class="ghost-btn" id="res-retry" data-i18n="res.retry"></button>
+        <button class="primary" id="res-next" data-i18n="res.next"></button>
+      </div>
+    </div>
+  </section>
 
-    <div class="radar-wrap"><div class="radar" id="radar"><i></i><i></i><span class="radar-player"></span><span class="radar-enemy" id="radar-enemy"></span></div><b>PROXIMITY // 110M</b></div>
-    <div class="bottom-status"><span>CHASSIS <b>NOMINAL</b></span><span>CORE TEMP <b id="heat">31°C</b></span><span>LINK <b>TYPE/Safe</b></span><span>FPS <b id="fps">60</b></span></div>
-  </main>
-
-  <div class="start-screen" id="start-screen">
-    <div class="start-content"><span class="eyebrow">AUTONOMOUS COMBAT PROTOCOL</span><h2>STEEL<br><em>DIRECTIVE</em></h2><p>Тактическая арена, где каждый мех действует по структурированным решениям JEV — и помнит то, что видел.</p><div class="mode"><button class="active" data-mode="training">TARGET TEST</button><button data-mode="duel">1 VS 1</button><button data-mode="squad">3 VS 3</button></div><button id="launch">INITIALIZE MATCH <span>→</span></button><small>Все мехи автономны · клавиши управления работают как ручной override</small></div>
-    <div class="start-index">BUILD 0.4.7<br>NEURAL LINK READY</div>
-  </div>
-
-  <script type="module" src="./src/game.js"></script>
+  <script type="module" src="./src/main.js"></script>
 </body>
 </html>

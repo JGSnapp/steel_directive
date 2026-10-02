@@ -17,6 +17,9 @@ logs/
 node_modules/
 dist/
 
+# Blender autosaves
+*.blend1
+
 # Editors and OS
 .vscode/
 .idea/
