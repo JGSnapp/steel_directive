@@ -119,7 +119,7 @@ def main():
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(args.fps), "-i", str(tmp / "%06d.png"),
                     "-vf", "format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "17", "-tune", "film", str(tmp / "game.mp4")], check=True)
     intro = ("STEEL//DIRECTIVE", pick({"en": "You write the strategy. An LLM commands the mechs.", "ru": "Вы пишете стратегию. LLM командует мехами.", "zh": "你写下战略，LLM 指挥机甲。"}, args.lang))
-    outro = (pick({"en": "PLAY IT", "ru": "ИГРАТЬ", "zh": "开始游戏"}, args.lang), "github.com/JGSnapp/autolock_bots")
+    outro = (pick({"en": "PLAY IT", "ru": "ИГРАТЬ", "zh": "开始游戏"}, args.lang), "github.com/JGSnapp/steel_directive")
     parts = []
     for name, (title, sub) in (("intro", intro), ("outro", outro)):
         card(tmp / f"{name}.png", title, sub)

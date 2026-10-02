@@ -45,8 +45,8 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/JGSnapp/autolock_bots.git
-cd autolock_bots
+git clone https://github.com/JGSnapp/steel_directive.git
+cd steel_directive
 pip install -r requirements.txt
 cp .env.example .env        # 可选：填写 API 密钥
 python server.py            # http://localhost:8000

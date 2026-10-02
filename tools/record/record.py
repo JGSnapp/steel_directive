@@ -132,7 +132,7 @@ class Recorder:
 
 TEXT = {
     "trailer_intro": {"en": ("STEEL//DIRECTIVE", "You write the strategy. An LLM commands the mechs."), "ru": ("STEEL//DIRECTIVE", "Вы пишете стратегию. LLM командует мехами."), "zh": ("STEEL//DIRECTIVE", "你写下战略，LLM 指挥机甲。")},
-    "outro": {"en": ("PLAY IT", "github.com/JGSnapp/autolock_bots"), "ru": ("ИГРАТЬ", "github.com/JGSnapp/autolock_bots"), "zh": ("开始游戏", "github.com/JGSnapp/autolock_bots")},
+    "outro": {"en": ("PLAY IT", "github.com/JGSnapp/steel_directive"), "ru": ("ИГРАТЬ", "github.com/JGSnapp/steel_directive"), "zh": ("开始游戏", "github.com/JGSnapp/steel_directive")},
     "directive": {"en": "Everyone on QUEEN, she's exposed!", "ru": "Все на QUEEN, она открыта!", "zh": "全员集火 QUEEN，她暴露了！"},
 }
 MATCH_TITLES = {

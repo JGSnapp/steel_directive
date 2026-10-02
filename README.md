@@ -7,7 +7,7 @@
 **A mech league where you never touch the controls.**
 You write each mech's strategy in plain words. An LLM commander turns it into a plan and talks to the team over the radio. Three JEV decision streams per mech choose every step, turn and trigger pull.
 
-[![CI](https://github.com/JGSnapp/autolock_bots/actions/workflows/ci.yml/badge.svg)](https://github.com/JGSnapp/autolock_bots/actions/workflows/ci.yml)
+[![CI](https://github.com/JGSnapp/steel_directive/actions/workflows/ci.yml/badge.svg)](https://github.com/JGSnapp/steel_directive/actions/workflows/ci.yml)
 [![Three.js](https://img.shields.io/badge/three.js-r168-black?logo=threedotjs)](https://threejs.org)
 [![Blender](https://img.shields.io/badge/models-Blender%204.2-orange?logo=blender&logoColor=white)](tools/blender/build_assets.py)
 [![JEV](https://img.shields.io/badge/streams-TypeSafe%20JEV-3fe0f5)](https://typesafe.ai)
@@ -61,8 +61,8 @@ The trailer is rendered frame by frame at 1080p/30 fps with `tools/record/montag
 ## Quick start
 
 ```bash
-git clone https://github.com/JGSnapp/autolock_bots.git
-cd autolock_bots
+git clone https://github.com/JGSnapp/steel_directive.git
+cd steel_directive
 pip install -r requirements.txt
 cp .env.example .env        # optional: add API keys
 python server.py            # http://localhost:8000
